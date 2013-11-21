@@ -23,9 +23,13 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
     return dePayload
 
 
-class DeInitialiser(pypline.Task):
+class DeJongOneInitialiser(pypline.Task):
+    def __init__(self, pop_size, solution_size):
+        self.pop_size = pop_size
+        self.solution_size = solution_size
+
     def process(self, message, pipeline):
-        pass
+        return initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
 
 
 if __name__ == "__main__":
