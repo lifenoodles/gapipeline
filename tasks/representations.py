@@ -15,3 +15,4 @@ class DePayload(object):
         self.population = []
         self.best = None
         self.generation = 0
+        self.target_fitness = 0
