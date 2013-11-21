@@ -1,19 +1,23 @@
 import pypline
+import random
+
+
+def generate_random_vector(size, lower, upper):
+    top_range = upper - lower
+    return [random.random() * top_range - abs(lower)
+            for n in xrange(size)]
 
 
 def initialise_random_de(pop_size, solution_size, lower, upper):
     """
     Construct a random population of n vectors based on upper and lower limit
     """
-    import random
     import representations
     dePayload = representations.DePayload()
-    top_range = upper - lower
     solutions = []
     for i in xrange(pop_size):
         solution = representations.Solution()
-        solution.genes = [random.random() * top_range - abs(lower)
-                          for n in xrange(solution_size)]
+        solution.genes = generate_random_vector(solution_size, lower, upper)
         solutions.append(solution)
     dePayload.population = solutions
     return dePayload
