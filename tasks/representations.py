@@ -1,10 +1,13 @@
 class Solution(object):
+    __slots__ = ["genes", "fitness"]
+
     def __init__(self):
         self.genes = []
         self.fitness = -1
 
     def __str__(self):
-        return "[%s]" % ", ".join([("%.2f" % x) for x in self.genes])
+        return "[%s]" % ", ".join(
+            [("%.2f" % x) for x in self.genes])
 
     def __repr__(self):
         return str(self)
