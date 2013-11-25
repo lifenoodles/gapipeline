@@ -34,7 +34,7 @@ class DifferenceSelector(pypline.Task):
                "Population is too small for chosen amount of diff vectors!")
         selection_list = []
         for i, solution in enumerate(message.population):
-            selected = set([message.base_solutions[i]])
+            selected = set([message.base_solutions_indices[i]])
             while len(selected) < self.n * 2:
                 selected.add(random.randint(0, len(message.population) + 1))
             selection_list.append(list(selected))
