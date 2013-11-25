@@ -18,7 +18,7 @@ class RandomSelector(pypline.Task):
         return message
 
 
-class DifferenceSelectors(pypline.Task):
+class DifferenceSelector(pypline.Task):
     def __init__(self, n):
         self.n = n
 
