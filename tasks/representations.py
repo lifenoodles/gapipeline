@@ -21,6 +21,7 @@ class DePayload(object):
         self.parents = []
         self.selected = []
         self.base_solutions = []
+        self.base_solutions_indices = []
         self.best = None
         self.generation = 0
         self.target_fitness = 0

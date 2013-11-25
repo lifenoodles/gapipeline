@@ -6,15 +6,22 @@ class BestSelector(pypline.Task):
     def process(self, message, pipeline):
         best_index = min(self.population, key=lambda x: x.fitness)
         message.base_solutions = [
+            message.population[best_index] for i in xrange(len(message.population))]
+        message.base_solutions_indices = [
             best_index for i in xrange(len(message.population))]
         return message
 
 
 class RandomSelector(pypline.Task):
     def process(self, message, pipeline):
-        message.base_solutions = [
-            random.randint(0, len(message.population) + 1)
-            for i in xrange(len(message.population))]
+        base_solutions = []
+        base_solutions_indices = []
+        for i in xrange(len(message.population)):
+            rand = random.randint(0, len(message.population) + 1)
+            base_solutions.append(message.population[rand])
+            base_solutions_indices.append(rand)
+        message.base_solutions = base_solutions
+        message.base_solutions_indices = base_solutions_indices
         return message
 
 
