@@ -16,7 +16,7 @@ class Solution(object):
 class DePayload(object):
     def __init__(self):
         self.population = []
-        self.candidates = []
+        self.trials = []
         self.parents = []
         self.selected = []
         self.base_solutions = []

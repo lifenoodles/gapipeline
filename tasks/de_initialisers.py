@@ -20,7 +20,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
         solution.genes = generate_random_vector(solution_size, lower, upper)
         solutions.append(solution)
     dePayload.population = solutions
-    dePayload.candidates = solutions[:]
+    dePayload.trials = solutions[:]
     dePayload.best = solutions[0]
     return dePayload
 
