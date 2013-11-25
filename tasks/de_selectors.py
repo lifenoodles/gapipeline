@@ -4,9 +4,9 @@ import random
 
 class BestSelector(pypline.Task):
     def process(self, message, pipeline):
-        best_index = min(self.population, key=lambda x: x.fitness)
-        message.base_solutions = [
-            message.population[best_index] for i in xrange(len(message.population))]
+        best_index, best = min(enumerate(message.population),
+                               key=lambda (x, y): y.fitness)
+        message.base_solutions = [best for i in xrange(len(message.population))]
         message.base_solutions_indices = [
             best_index for i in xrange(len(message.population))]
         return message
@@ -30,8 +30,8 @@ class DifferenceSelector(pypline.Task):
         self.n = n
 
     def process(self, message, pipeline):
-        assert(self.n * 2 >= len(message.population) + 1,
-               "Population is too small for chosen amount of diff vectors!")
+        assert self.n * 2 <= len(message.population) + 1, \
+            "Population is too small for chosen amount of diff vectors!"
         selection_list = []
         for i, solution in enumerate(message.population):
             selected = set([message.base_solutions_indices[i]])

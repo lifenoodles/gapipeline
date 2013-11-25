@@ -23,6 +23,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
     dePayload.population = solutions
     dePayload.trials = solutions[:]
     dePayload.best = solutions[0]
+    dePayload.best.fitness = -1
     return dePayload
 
 
@@ -35,6 +36,7 @@ class DeJongOneInitialiser(pypline.Task):
         de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
         de.solution_size = self.solution_size
         de.population_size = self.pop_size
+        return de
 
 if __name__ == "__main__":
     p = initialise_random_de(10, 10, 0, 1)

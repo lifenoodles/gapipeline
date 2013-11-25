@@ -10,5 +10,5 @@ class BinomialCrossover(pypline.Task):
         for i in xrange(len(message.trials)):
             for j in xrange(len(message.population[i].genes)):
                 if random.random() > self.cr and i != j:
-                    message.trials[i][j] = message.population[i][j]
+                    message.trials[i].genes[j] = message.population[i].genes[j]
         return message

@@ -1,12 +1,12 @@
 modules:
-  - ../tasks/controllers.py
-  - ../tasks/de_evaluators.py
-  - ../tasks/de_initialisers.py
-  - ../tasks/de_selectors.py
-  - ../tasks/replacers.py
-  - ../tasks/mutators.py
-  - ../tasks/crossover.py
-  - ../tasks/loggers.py
+  - tasks/controllers.py
+  - tasks/de_evaluators.py
+  - tasks/de_initialisers.py
+  - tasks/de_selectors.py
+  - tasks/replacers.py
+  - tasks/mutators.py
+  - tasks/crossover.py
+  - tasks/loggers.py
 pipelines:
   - name: DeJongOnePipeline
     controller:
