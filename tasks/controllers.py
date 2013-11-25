@@ -12,5 +12,6 @@ class GeneralController(pypline.Task):
             and abs(message.best.fitness - message.target_fitness) \
                 < GeneralController.epsilon:
             return True
+        terminate = message.generation == self.generations
         message.generation += 1
-        return message.generation == self.generations
+        return terminate
