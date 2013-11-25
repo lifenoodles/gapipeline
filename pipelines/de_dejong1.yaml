@@ -18,17 +18,17 @@ pipelines:
         params:
           - [100, 10]
     tasks:
-      - name: DeJongOneEvaluator
-      - name: BetterReplacer
-      - name: BestSelector
+      - name: RandomSelector
       - name: DifferenceSelector
         params:
-          - 2
+          - 1
       - name: DeMutator
         params:
           - 0.5
       - name: BinomialCrossover
         params:
           - 0.5
+      - name: DeJongOneEvaluator
+      - name: BetterReplacer
       - name: TerminalLogger
     finalisers: []
