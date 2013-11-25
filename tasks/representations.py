@@ -3,7 +3,7 @@ class Solution(object):
 
     def __init__(self):
         self.genes = []
-        self.fitness = -1
+        self.fitness = None
 
     def __str__(self):
         return "[%s]" % ", ".join(
