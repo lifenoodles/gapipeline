@@ -4,6 +4,8 @@ modules:
   - ../tasks/de_initialisers.py
   - ../tasks/de_selectors.py
   - ../tasks/replacers.py
+  - ../tasks/mutators.py
+  - ../tasks/crossover.py
 pipelines:
   - name: DeJongOnePipeline
     controller:
@@ -21,5 +23,10 @@ pipelines:
       - name: DifferenceSelector
         params:
           - 2
-
+      - name: DeMutator
+        params:
+          - 0.5
+      - name: BinomialCrossover
+        params:
+          - 0.5
     finalisers: []
