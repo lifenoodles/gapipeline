@@ -17,7 +17,7 @@ class RandomSelector(pypline.Task):
         base_solutions = []
         base_solutions_indices = []
         for i in xrange(len(message.population)):
-            rand = random.randint(0, len(message.population) + 1)
+            rand = random.randint(0, len(message.population) - 1)
             base_solutions.append(message.population[rand])
             base_solutions_indices.append(rand)
         message.base_solutions = base_solutions
@@ -36,7 +36,8 @@ class DifferenceSelector(pypline.Task):
         for i, solution in enumerate(message.population):
             selected = set([message.base_solutions_indices[i]])
             while len(selected) < self.n * 2:
-                selected.add(random.randint(0, len(message.population) + 1))
-            selection_list.append(list(selected))
+                selected.add(random.randint(0, len(message.population) - 1))
+            selection_list.append([message.population[x] for x in
+                                  sorted(list(selected))])
         message.selected = selection_list
         return message
