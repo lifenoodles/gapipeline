@@ -19,6 +19,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
         solution = representations.Solution()
         solution.genes = generate_random_vector(solution_size, lower, upper)
         solutions.append(solution)
+        solution.generation = 0
     dePayload.population = solutions
     dePayload.trials = solutions[:]
     dePayload.best = solutions[0]
@@ -31,8 +32,9 @@ class DeJongOneInitialiser(pypline.Task):
         self.solution_size = solution_size
 
     def process(self, message, pipeline):
-        return initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
-
+        de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
+        de.solution_size = self.solution_size
+        de.population_size = self.pop_size
 
 if __name__ == "__main__":
     p = initialise_random_de(10, 10, 0, 1)
