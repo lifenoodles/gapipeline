@@ -1,5 +1,8 @@
 import pypline
 import random
+import sys
+sys.path.append("tasks")
+import de_evaluators
 
 
 def generate_random_vector(size, lower, upper):
@@ -22,8 +25,6 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
         solution.generation = 0
     dePayload.population = solutions
     dePayload.trials = solutions[:]
-    dePayload.best = solutions[0]
-    dePayload.best.fitness = -1
     return dePayload
 
 
@@ -36,6 +37,7 @@ class DeJongOneInitialiser(pypline.Task):
         de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
         de.solution_size = self.solution_size
         de.population_size = self.pop_size
+        de_evaluators.DeJongOneEvaluator().process(de, None)
         return de
 
 if __name__ == "__main__":
