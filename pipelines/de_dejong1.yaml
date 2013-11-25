@@ -6,6 +6,7 @@ modules:
   - ../tasks/replacers.py
   - ../tasks/mutators.py
   - ../tasks/crossover.py
+  - ../tasks/loggers.py
 pipelines:
   - name: DeJongOnePipeline
     controller:
@@ -29,4 +30,5 @@ pipelines:
       - name: BinomialCrossover
         params:
           - 0.5
+      - name: TerminalLogger
     finalisers: []
