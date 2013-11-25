@@ -16,6 +16,21 @@ class Solution(object):
 class DePayload(object):
     def __init__(self):
         self.population = []
+        self.candidates = []
+        self.parents = []
+        self.selected = []
+        self.base_solutions = []
         self.best = None
         self.generation = 0
         self.target_fitness = 0
+
+    def __str__(self):
+        string = "Generation: %s\nBest: %s\n" % (self.generation, self.best)
+        return string
+
+    def __repr__(self):
+        return str(self)
+
+if __name__ == "__main__":
+    payload = DePayload()
+    print payload
