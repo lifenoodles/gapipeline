@@ -1,0 +1,25 @@
+modules:
+  - ../tasks/controllers.py
+  - ../tasks/de_evaluators.py
+  - ../tasks/de_initialisers.py
+  - ../tasks/de_selectors.py
+  - ../tasks/replacers.py
+pipelines:
+  - name: DeJongOnePipeline
+    controller:
+      name: GeneralController
+      params:
+        - 1000
+    initialisers:
+      - name: DeJongOneInitialiser
+        params:
+          - [100, 10]
+    tasks:
+      - name: DeJongOneEvaluator
+      - name: BetterReplacer
+      - name: BestSelector
+      - name: DifferenceSelector
+        params:
+          - 2
+
+    finalisers: []
