@@ -23,7 +23,7 @@ class DePayload(object):
         self.base_solutions = []
         self.base_solutions_indices = []
         self.best = None
-        self.generation = 0
+        self.generation = 1
         self.target_fitness = 0
         self.population_size = 0
         self.solution_size = 0
