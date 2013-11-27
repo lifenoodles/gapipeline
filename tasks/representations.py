@@ -1,10 +1,11 @@
 class Solution(object):
-    __slots__ = ["genes", "fitness", "generation"]
+    __slots__ = ["genes", "fitness", "generation", "parents"]
 
     def __init__(self):
         self.genes = []
         self.fitness = None
         self.generation = None
+        self.parents = []
 
     def __str__(self):
         return "[%s]" % ", ".join(
