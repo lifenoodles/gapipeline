@@ -2,6 +2,37 @@ import pypline
 import random
 
 
+class CrossoverSelectorEach(pypline.Task):
+    """
+    implements a selector that chooses each individual in the population
+    to be used to crossover
+    """
+    def process(self, message, pipeline):
+        message.crossover_solutions = message.population[:]
+        return message
+
+
+class CrossoverSelectorAncestor(pypline.Task):
+    """
+    implements a selector that chooses each individual in the population
+    to be used to crossover
+
+    Arguments:
+    pr -- The probability that the selected solutions ancestor will be used instead
+    """
+    def __init__(self, pr):
+        self.pr = pr
+
+    def process(self, message, pipeline):
+        crossover_solutions = []
+        for solution in message.population:
+            if random.random() < self.pr and solution.has_parents():
+                crossover_solutions.append(random.choice(solution.parents))
+            else:
+                crossover_solutions.append(solution)
+        return message
+
+
 class BestSelector(pypline.Task):
     def process(self, message, pipeline):
         best_index, best = min(enumerate(message.population),
@@ -43,10 +74,10 @@ class DifferenceSelector(pypline.Task):
         return message
 
 
-class AncestorDifferenceSelector(pypline.Task):
+class DifferenceSelectorAncestor(pypline.Task):
     """
-    implements a difference selector that occasionally selects a parent instead
-    of a random solution from the population instead of the random solution itself
+    implements a difference selector that occasionally selects a parent of a
+    random solution from the population instead of the random solution itself
 
     Arguments:
     n -- The number of pairs to select from the population
@@ -77,8 +108,23 @@ class AncestorDifferenceSelector(pypline.Task):
         return message
 
 
-class DeParentAllocator(pypline.Task):
+class DeParentAllocatorDifference(pypline.Task):
+    """
+    allocates parents to solutions based on the solutions used to generate a
+    difference vector for the new trial
+    """
     def process(self, message, pipeline):
-        for i, solution in enumerate(message.trials):
-            solution.parents = message.selected[i]
+        for i, trial in enumerate(message.trials):
+            trial.parents = message.selected[i]
+        return message
+
+
+class DeParentAllocatorCrossover(pypline.Task):
+    """
+    allocates parents to solutions based on the solution crossed to
+    generate the new solution
+    """
+    def process(self, message, pipeline):
+        for solution, trial in zip(message.population, message.trials):
+            trial.parents.append(solution)
         return message
