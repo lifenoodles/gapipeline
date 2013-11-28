@@ -14,6 +14,9 @@ class Solution(object):
     def __repr__(self):
         return str(self)
 
+    def has_parents(self):
+        return len(self.parents) > 0
+
 
 class DePayload(object):
     def __init__(self):
@@ -22,6 +25,7 @@ class DePayload(object):
         self.parents = []
         self.selected = []
         self.base_solutions = []
+        self.crossover_solutions = []
         self.best = None
         self.generation = 1
         self.target_fitness = 0
