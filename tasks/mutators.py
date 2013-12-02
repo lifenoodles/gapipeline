@@ -12,13 +12,13 @@ class DeMutator(pypline.Task):
         for i in xrange(len(message.population)):
             diff_vector = []
             solution_size = len(message.population[i].genes)
-            diff_count = len(message.selected[i])
+            diff_count = len(message.difference_solutions[i])
             for j in xrange(solution_size):
                 diff = 0
                 for k in range(diff_count // 2):
-                    diff += message.selected[i][k].genes[j]
+                    diff += message.difference_solutions[i][k].genes[j]
                 for k in range(diff_count // 2, diff_count):
-                    diff -= message.selected[i][k].genes[j]
+                    diff -= message.difference_solutions[i][k].genes[j]
                 diff_vector.append(diff)
             trial = representations.Solution()
             trial.genes = [x + (self.f * y)
