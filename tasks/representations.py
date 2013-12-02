@@ -23,7 +23,7 @@ class DePayload(object):
         self.population = []
         self.trials = []
         self.parents = []
-        self.selected = []
+        self.difference_solutions = []
         self.base_solutions = []
         self.crossover_solutions = []
         self.best = None

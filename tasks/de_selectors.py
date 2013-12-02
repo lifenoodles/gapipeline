@@ -70,10 +70,12 @@ class DifferenceSelector(pypline.Task):
                 selected.add(random.randint(0, len(message.population) - 1))
             selection_list.append([message.population[x] for x in
                                   sorted(list(selected))])
-        message.selected = selection_list
+        message.difference_solutions = selection_list
         return message
 
 
+@pypline.provides("difference_solutions")
+@pypline.requires("population")
 class DifferenceSelectorAncestor(pypline.Task):
     """
     implements a difference selector that occasionally selects a parent of a
@@ -104,7 +106,7 @@ class DifferenceSelectorAncestor(pypline.Task):
                 else:
                     selected_solutions.append(message.population[j])
             selection_list.append(selected_solutions)
-        message.selected = selection_list
+        message.difference_solutions = selection_list
         return message
 
 
@@ -115,7 +117,7 @@ class DeParentAllocatorDifference(pypline.Task):
     """
     def process(self, message, pipeline):
         for i, trial in enumerate(message.trials):
-            trial.parents = message.selected[i]
+            trial.parents = message.difference_solutions[i]
         return message
 
 
@@ -125,6 +127,6 @@ class DeParentAllocatorCrossover(pypline.Task):
     generate the new solution
     """
     def process(self, message, pipeline):
-        for solution, trial in zip(message.population, message.trials):
+        for solution, trial in zip(message.crossover_solutions, message.trials):
             trial.parents.append(solution)
         return message
