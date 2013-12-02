@@ -16,7 +16,7 @@ pipelines:
     initialisers:
       - name: DeJongOneInitialiser
         params:
-          - [100, 10]
+          - [100, 50]
     tasks:
       - name: RandomSelector
       - name: DifferenceSelector
@@ -25,6 +25,9 @@ pipelines:
       - name: DeMutator
         params:
           - 0.5
+      - name: CrossoverSelectorAncestor
+        params:
+          - 1
       - name: BinomialCrossover
         params:
           - 0.5
