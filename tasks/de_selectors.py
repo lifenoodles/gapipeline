@@ -2,6 +2,8 @@ import pypline
 import random
 
 
+@pypline.provides("crossover_solutions")
+@pypline.requires("population")
 class CrossoverSelectorEach(pypline.Task):
     """
     implements a selector that chooses each individual in the population
@@ -12,6 +14,8 @@ class CrossoverSelectorEach(pypline.Task):
         return message
 
 
+@pypline.provides("crossover_solutions")
+@pypline.requires("population")
 class CrossoverSelectorAncestor(pypline.Task):
     """
     implements a selector that chooses each individual in the population
@@ -30,9 +34,12 @@ class CrossoverSelectorAncestor(pypline.Task):
                 crossover_solutions.append(random.choice(solution.parents))
             else:
                 crossover_solutions.append(solution)
+        message.crossover_solutions = crossover_solutions
         return message
 
 
+@pypline.provides("base_solutions")
+@pypline.requires("population")
 class BestSelector(pypline.Task):
     def process(self, message, pipeline):
         best_index, best = min(enumerate(message.population),
@@ -43,6 +50,8 @@ class BestSelector(pypline.Task):
         return message
 
 
+@pypline.provides("base_solutions")
+@pypline.requires("population")
 class RandomSelector(pypline.Task):
     def process(self, message, pipeline):
         base_solutions = []
@@ -56,6 +65,8 @@ class RandomSelector(pypline.Task):
         return message
 
 
+@pypline.provides("difference_solutions")
+@pypline.requires("population")
 class DifferenceSelector(pypline.Task):
     def __init__(self, n):
         self.n = n
