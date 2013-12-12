@@ -35,6 +35,8 @@ class CrossoverSelectorAncestor(pypline.Task):
             else:
                 crossover_solutions.append(solution)
         message.crossover_solutions = crossover_solutions
+        assert len(crossover_solutions) == len(message.population), \
+            "crossover_solutions length must be equal to population length."
         return message
 
 
