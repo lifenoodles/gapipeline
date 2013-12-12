@@ -10,7 +10,7 @@ modules:
 pipelines:
   - name: DeJongOnePipeline
     controller:
-      name: GeneralController
+      name: GenerationController
       params:
         - 1000
     initialisers:
