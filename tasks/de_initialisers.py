@@ -1,5 +1,6 @@
 import pypline
 import random
+import time
 import sys
 sys.path.append("tasks")
 import de_evaluators
@@ -25,6 +26,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
         solution.generation = 0
     dePayload.population = solutions
     dePayload.trials = solutions[:]
+    dePayload.start_time = time.time()
     return dePayload
 
 
