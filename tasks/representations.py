@@ -22,9 +22,9 @@ class DePayload(object):
     def __init__(self):
         self.population = []
         self.trials = []
-        self.parents = []
         self.difference_solutions = []
         self.base_solutions = []
+        self.base_solutions_indices = []
         self.crossover_solutions = []
         self.best = None
         self.generation = 1

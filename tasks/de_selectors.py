@@ -7,7 +7,7 @@ import random
 class CrossoverSelectorEach(pypline.Task):
     """
     implements a selector that chooses each individual in the population
-    to be used to crossover
+    to be used for crossover
     """
     def process(self, message, pipeline):
         message.crossover_solutions = message.population[:]
@@ -16,10 +16,10 @@ class CrossoverSelectorEach(pypline.Task):
 
 @pypline.provides("crossover_solutions")
 @pypline.requires("population")
-class CrossoverSelectorAncestor(pypline.Task):
+class CrossoverSelectorEachAncestor(pypline.Task):
     """
     implements a selector that chooses each individual in the population
-    to be used to crossover
+    to be used for crossover
 
     Arguments:
     pr -- The probability that the selected solutions ancestor will be used instead
@@ -40,9 +40,13 @@ class CrossoverSelectorAncestor(pypline.Task):
         return message
 
 
-@pypline.provides("base_solutions")
+@pypline.provides("base_solutions", "base_solutions_indices")
 @pypline.requires("population")
 class BestSelector(pypline.Task):
+    """
+    implements a selector that chooses the best individual in the population
+    to be the base for every crossover event
+    """
     def process(self, message, pipeline):
         best_index, best = min(enumerate(message.population),
                                key=lambda (x, y): y.fitness)
@@ -52,9 +56,13 @@ class BestSelector(pypline.Task):
         return message
 
 
-@pypline.provides("base_solutions")
+@pypline.provides("base_solutions", "base_solutions_indices")
 @pypline.requires("population")
 class RandomSelector(pypline.Task):
+    """
+    implements a selector that chooses a random individual in the population
+    to be the base for every crossover event
+    """
     def process(self, message, pipeline):
         base_solutions = []
         base_solutions_indices = []
@@ -68,8 +76,15 @@ class RandomSelector(pypline.Task):
 
 
 @pypline.provides("difference_solutions")
-@pypline.requires("population")
+@pypline.requires("population", "base_solutions", "base_solutions_indices")
 class DifferenceSelector(pypline.Task):
+    """
+    implements a selector that chooses a set of individuals in the
+    population to be used for difference vector generation
+
+    Arguments:
+    n -- The target number of difference vectors
+    """
     def __init__(self, n):
         self.n = n
 
@@ -81,14 +96,19 @@ class DifferenceSelector(pypline.Task):
             selected = set([message.base_solutions_indices[i]])
             while len(selected) < self.n * 2:
                 selected.add(random.randint(0, len(message.population) - 1))
-            selection_list.append([message.population[x] for x in
-                                  sorted(list(selected))])
+            selected_list = list(selected)
+            random.shuffle(selected_list)
+            selection_list.append([message.population[x] for x in selected_list])
         message.difference_solutions = selection_list
+        assert len(message.difference_solutions[0]) == self.n * 2, \
+            "Incorrect number of solutions selected for difference vector" \
+            "generation, expected %d, but found %d" % \
+            (self.n * 2, len(message.difference_solutions[0]))
         return message
 
 
 @pypline.provides("difference_solutions")
-@pypline.requires("population")
+@pypline.requires("population", "base_solutions", "base_solutions_indices")
 class DifferenceSelectorAncestor(pypline.Task):
     """
     implements a difference selector that occasionally selects a parent of a
@@ -110,9 +130,11 @@ class DifferenceSelectorAncestor(pypline.Task):
             selected = set([message.base_solutions_indices[i]])
             while len(selected) < self.n * 2:
                 selected.add(random.randint(0, len(message.population) - 1))
+            selected_list = list(selected)
+            random.shuffle(selected_list)
             selected_solutions = []
-            for j in sorted(list(selected)):
-                if len(message.population[j].parents) > 0 \
+            for j in selected_list:
+                if message.population[j].has_parents() \
                         and random.random() < self.pr:
                     selected_solutions.append(
                         random.choice(message.population[j].parents))
@@ -120,9 +142,14 @@ class DifferenceSelectorAncestor(pypline.Task):
                     selected_solutions.append(message.population[j])
             selection_list.append(selected_solutions)
         message.difference_solutions = selection_list
+        assert len(message.difference_solutions[0]) == self.n * 2, \
+            "Incorrect number of solutions selected for difference vector" \
+            "generation, expected %d, but found %d" % \
+            (self.n * 2, len(message.difference_solutions[0]))
         return message
 
 
+@pypline.requires("difference_solutions", "trials")
 class DeParentAllocatorDifference(pypline.Task):
     """
     allocates parents to solutions based on the solutions used to generate a
@@ -134,6 +161,7 @@ class DeParentAllocatorDifference(pypline.Task):
         return message
 
 
+@pypline.requires("crossover_solutions", "trials")
 class DeParentAllocatorCrossover(pypline.Task):
     """
     allocates parents to solutions based on the solution crossed to
