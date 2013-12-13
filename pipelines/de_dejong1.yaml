@@ -21,16 +21,15 @@ pipelines:
       - name: RandomSelector
       - name: DifferenceSelector
         params:
-          - 1
+          - [2]
+      - name: CrossoverSelectorEach
       - name: DeMutator
         params:
-          - 0.5
-      - name: CrossoverSelectorAncestor
-        params:
-          - 1
+          - 0.3
       - name: BinomialCrossover
         params:
           - 0.5
+      - name: DeParentAllocatorCrossover
       - name: DeJongOneEvaluator
       - name: BetterReplacer
       - name: TerminalLogger
