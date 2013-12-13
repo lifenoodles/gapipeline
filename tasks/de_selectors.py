@@ -15,7 +15,7 @@ class CrossoverSelectorEach(pypline.Task):
 
 
 @pypline.provides("crossover_solutions")
-@pypline.requires("population")
+@pypline.requires("population", "ancestors")
 class CrossoverSelectorEachAncestor(pypline.Task):
     """
     implements a selector that chooses each individual in the population
@@ -108,7 +108,8 @@ class DifferenceSelector(pypline.Task):
 
 
 @pypline.provides("difference_solutions")
-@pypline.requires("population", "base_solutions", "base_solutions_indices")
+@pypline.requires("population", "base_solutions", "base_solutions_indices",
+                  )
 class DifferenceSelectorAncestor(pypline.Task):
     """
     implements a difference selector that occasionally selects a parent of a
@@ -149,6 +150,7 @@ class DifferenceSelectorAncestor(pypline.Task):
         return message
 
 
+@pypline.provides("ancestors")
 @pypline.requires("difference_solutions", "trials")
 class DeParentAllocatorDifference(pypline.Task):
     """
@@ -161,6 +163,7 @@ class DeParentAllocatorDifference(pypline.Task):
         return message
 
 
+@pypline.provides("ancestors")
 @pypline.requires("crossover_solutions", "trials")
 class DeParentAllocatorCrossover(pypline.Task):
     """
