@@ -30,7 +30,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
     return dePayload
 
 
-@pypline.provides("population")
+@pypline.provides("population", "initialisation")
 class DeJongOneInitialiser(pypline.Task):
     def __init__(self, pop_size, solution_size):
         self.pop_size = pop_size

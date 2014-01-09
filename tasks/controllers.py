@@ -1,6 +1,7 @@
 import pypline
 
 
+@pypline.requires("initialisation")
 class GenerationController(pypline.Task):
     epsilon = 10e-7
 

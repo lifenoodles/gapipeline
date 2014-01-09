@@ -9,6 +9,7 @@ modules:
   - tasks/loggers.py
 pipelines:
   - name: DeJongOnePipeline
+    runs: 10
     controller:
       name: GenerationController
       params:
