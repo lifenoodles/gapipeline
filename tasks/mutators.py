@@ -4,6 +4,7 @@ sys.path.append("tasks")
 import representations
 
 
+@pypline.requires("difference_solutions", "base_solutions")
 @pypline.provides("trials")
 class DeMutator(pypline.Task):
     def __init__(self, f):

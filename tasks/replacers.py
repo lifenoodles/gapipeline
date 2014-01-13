@@ -1,6 +1,7 @@
 import pypline
 
 
+@pypline.requires("population", "trials")
 class BetterReplacer(pypline.Task):
     def process(self, message, pipeline):
         assert(len(message.population) == len(message.trials),
@@ -11,6 +12,7 @@ class BetterReplacer(pypline.Task):
         return message
 
 
+@pypline.requires("population", "trials")
 class AllReplacer(pypline.Task):
     def process(self, message, pipeline):
         assert(len(message.population) == len(message.trials),

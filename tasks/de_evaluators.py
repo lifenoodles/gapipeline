@@ -1,6 +1,8 @@
 import pypline
 
 
+@pypline.requires("trials")
+@pypline.provides("best")
 class DeJongOneEvaluator(pypline.Task):
     def process(self, message, pipeline):
         for solution in message.trials:

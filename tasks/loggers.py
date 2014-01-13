@@ -1,6 +1,7 @@
 import pypline
 
 
+@pypline.requires("best")
 class TerminalLogger(pypline.Task):
     def process(self, message, pipeline):
         print "Generation: %s" % message.generation
