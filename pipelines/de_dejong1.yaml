@@ -7,9 +7,9 @@ modules:
   - tasks/mutators.py
   - tasks/crossover.py
   - tasks/loggers.py
+runs: 2
 pipelines:
   - name: DeJongOnePipeline
-    runs: 10
     controller:
       name: GenerationController
       params:
