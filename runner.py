@@ -8,11 +8,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
     filename = args.filename
     filetype = os.path.splitext(filename)[1]
-    print filetype
     if filetype == ".yaml":
+        print "Parsing YAML"
         builder = pypline.YamlManagerBuilder()
         manager = builder.build_manager(filename)
         manager.generate_pipelines()
-        manager.execute()
+        print "Generated %i pipeline%s" % (len(manager.pipelines),
+            "s" if len(manager.pipelines) > 1 else "")
+        manager.execute(verbose=True)
 
     print "Run Complete"
