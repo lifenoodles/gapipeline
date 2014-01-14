@@ -7,6 +7,11 @@ import representations
 @pypline.requires("difference_solutions", "base_solutions")
 @pypline.provides("trials")
 class DeMutator(pypline.Task):
+    """
+    Standard DE mutation, generates trial vectors based on difference solutions
+    (i.e. solutions selected to be used to generate difference vectors) used
+    to perturb base solutions (e.g. rand, best etc.)
+    """
     def __init__(self, f):
         self.f = f
 
@@ -29,3 +34,6 @@ class DeMutator(pypline.Task):
             trial.generation = message.generation
             message.trials[i] = trial
         return message
+
+    def getDescription(self):
+        return { "mutation_type": "Standard Mutation", "mutation_rate": self.f }

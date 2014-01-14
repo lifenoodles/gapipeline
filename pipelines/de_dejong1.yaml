@@ -7,6 +7,7 @@ modules:
   - tasks/mutators.py
   - tasks/crossover.py
   - tasks/loggers.py
+  - tasks/finalisers.py
 runs: 2
 pipelines:
   - name: DeJongOnePipeline
@@ -17,7 +18,7 @@ pipelines:
     initialisers:
       - name: DeJongOneInitialiser
         params:
-          - [100, 50]
+          - [50, 20]
     tasks:
       - name: RandomSelector
       - name: DifferenceSelector
@@ -34,4 +35,5 @@ pipelines:
       - name: DeJongOneEvaluator
       - name: BetterReplacer
       - name: TerminalLogger
-    finalisers: []
+    finalisers:
+      - name: DescriptionBuilder
