@@ -3,10 +3,15 @@ import pypline
 
 @pypline.requires("initialisation")
 class GenerationController(pypline.Task):
+    """
+    Generational controller, signals the end of the algorithm if it falls to
+    0 generations or reaches target fitness
+    """
     epsilon = 10e-7
 
     def __init__(self, generations):
         self.generations = generations
+        self.starting_generations = generations
 
     def process(self, message, pipeline):
         assert message.generation <= self.generations, \
@@ -18,3 +23,7 @@ class GenerationController(pypline.Task):
             return True
         message.generation += 1
         return message.generation > self.generations
+
+    def getDescription(self):
+        return { "controller": "Generation Controller",
+                 "generations": self.starting_generations }
