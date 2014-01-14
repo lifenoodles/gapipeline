@@ -26,6 +26,8 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
         solution.generation = 0
     dePayload.population = solutions
     dePayload.trials = solutions[:]
+    dePayload.solution_size = solution_size
+    dePayload.population_size = pop_size
     dePayload.start_time = time.time()
     return dePayload
 
@@ -38,10 +40,11 @@ class DeJongOneInitialiser(pypline.Task):
 
     def process(self, message, pipeline):
         de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
-        de.solution_size = self.solution_size
-        de.population_size = self.pop_size
         de_evaluators.DeJongOneEvaluator().process(de, None)
         return de
+
+    def getDescription(self):
+        return { "population": self.pop_size, "soltution_size": self.solution_size }
 
 if __name__ == "__main__":
     p = initialise_random_de(10, 10, 0, 1)

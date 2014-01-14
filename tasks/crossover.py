@@ -4,6 +4,10 @@ import random
 
 @pypline.requires("crossover_solutions", "trials")
 class BinomialCrossover(pypline.Task):
+    """
+    Implements binomial crossover. This is effectively the same as uniform
+    crossover in a standard GA
+    """
     def __init__(self, cr):
         self.cr = cr
 
@@ -17,9 +21,16 @@ class BinomialCrossover(pypline.Task):
                     trial.genes[j] = c.genes[j]
         return message
 
+    def getDescription(self):
+        return { "crossover_type": "Binomial Crossover", "CR": self.cr }
+
 
 @pypline.requires("crossover_solutions", "trials")
 class ExponentialCrossover(pypline.Task):
+    """
+    Implements exponentioal crossover. This is effectively the same as point
+    based crossover in a standard GA
+    """
     def __init__(self, cr):
         self.cr = cr
 
@@ -35,3 +46,6 @@ class ExponentialCrossover(pypline.Task):
                     trial.genes[index] = c.genes[index]
                     index = (index + 1) % length
         return message
+
+    def getDescription(self):
+        return { "crossover_type": "Exponential Crossover", "CR": self.cr }
