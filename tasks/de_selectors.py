@@ -13,6 +13,9 @@ class CrossoverSelectorEach(pypline.Task):
         message.crossover_solutions = message.population[:]
         return message
 
+    def getDescription(self):
+        return { "selector": "Each" }
+
 
 @pypline.requires("population", "ancestors")
 @pypline.provides("crossover_solutions")
@@ -39,6 +42,9 @@ class CrossoverSelectorEachAncestor(pypline.Task):
             "crossover_solutions length must be equal to population length."
         return message
 
+    def getDescription(self):
+        return { "selector": "Each w/ Ancestor", "replacement_rate": self.pr }
+
 
 @pypline.requires("population")
 @pypline.provides("base_solutions", "base_solutions_indices")
@@ -54,6 +60,9 @@ class BestSelector(pypline.Task):
         message.base_solutions_indices = [
             best_index for i in xrange(len(message.population))]
         return message
+
+    def getDescription(self):
+        return { "selector": "Best" }
 
 
 @pypline.requires("population")
@@ -73,6 +82,9 @@ class RandomSelector(pypline.Task):
         message.base_solutions = base_solutions
         message.base_solutions_indices = base_solutions_indices
         return message
+
+    def getDescription(self):
+        return { "selector": "Random" }
 
 
 @pypline.requires("population", "base_solutions", "base_solutions_indices")
@@ -105,6 +117,9 @@ class DifferenceSelector(pypline.Task):
             "generation, expected %d, but found %d" % \
             (self.n * 2, len(message.difference_solutions[0]))
         return message
+
+    def getDescription(self):
+        return { "difference_selector": "Standard", "difference_n": self.n }
 
 
 @pypline.requires("population", "base_solutions", "base_solutions_indices")
@@ -148,28 +163,34 @@ class DifferenceSelectorAncestor(pypline.Task):
             (self.n * 2, len(message.difference_solutions[0]))
         return message
 
+    def getDescription(self):
+        return { "difference_selector": "Standard", "difference_n": self.n,
+                 "difference_replacement_rate": self.pr }
+
 
 @pypline.requires("difference_solutions", "trials")
 @pypline.provides("ancestors")
 class DeParentAllocatorDifference(pypline.Task):
     """
-    allocates parents to solutions based on the solutions used to generate a
-    difference vector for the new trial
+    allocates parents to solutions from the difference vector pool
     """
     def process(self, message, pipeline):
         for i, trial in enumerate(message.trials):
             trial.parents = message.difference_solutions[i]
         return message
 
+    return { "parent_allocation": "Difference Vector" }
+
 
 @pypline.requires("crossover_solutions", "trials")
 @pypline.provides("ancestors")
 class DeParentAllocatorCrossover(pypline.Task):
     """
-    allocates parents to solutions based on the solution crossed to
-    generate the new solution
+    allocates parents to solutions from the crossover pool
     """
     def process(self, message, pipeline):
         for solution, trial in zip(message.crossover_solutions, message.trials):
             trial.parents.append(solution)
         return message
+
+    return { "parent_allocation": "Crossover" }
