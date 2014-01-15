@@ -10,6 +10,35 @@ class DescriptionBuilder(pypline.Task):
         for task in tasklist:
             if hasattr(task, "getDescription"):
                 description.update(getattr(task, "getDescription")())
+        description.update({ "best": message.best.fitness, "generation": message.generation })
         message.description = description
-        print description
         return message
+
+
+@pypline.requires("description")
+class MongoDbSaver(pypline.Task):
+    def __init__(self, username, password, db, collection,
+            server="localhost", port="27017"):
+        self.username = username
+        self.password = password
+        self.db = db
+        self.collection = collection
+        self.server = server
+        self.port = port
+
+    def process(self, message, pipeline):
+        import pymongo
+        connection_string = "mongodb://%s:%s@%s:%s/%s" % \
+            (self.username, self.password, self.server, self.db, self.port)
+        try:
+            client = pymongo.MongoClient(
+                "mongodb://ga_user:ga_user@lifenoodles.com:27018/ga")
+            db = client[self.db]
+            results = db[self.collection]
+            print message.description
+            results.insert(message.description)
+        except Exception as e:
+            print "Error connecting to db with connection string: %s" %connection_string
+            raise e
+
+

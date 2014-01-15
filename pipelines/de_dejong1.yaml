@@ -23,7 +23,7 @@ pipelines:
       - name: RandomSelector
       - name: DifferenceSelector
         params:
-          - [2]
+          - 2
       - name: CrossoverSelectorEach
       - name: DeMutator
         params:
@@ -37,3 +37,6 @@ pipelines:
       - name: TerminalLogger
     finalisers:
       - name: DescriptionBuilder
+      - name: MongoDbSaver
+        params:
+          - ["ga_user", "ga_user", "ga", "results", "lifenoodles.com", "27018"]
