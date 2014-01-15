@@ -179,7 +179,8 @@ class DeParentAllocatorDifference(pypline.Task):
             trial.parents = message.difference_solutions[i]
         return message
 
-    return { "parent_allocation": "Difference Vector" }
+    def getDescription(self):
+        return { "parent_allocation": "Difference Vector" }
 
 
 @pypline.requires("crossover_solutions", "trials")
@@ -193,4 +194,5 @@ class DeParentAllocatorCrossover(pypline.Task):
             trial.parents.append(solution)
         return message
 
-    return { "parent_allocation": "Crossover" }
+    def getDescription(self):
+        return { "parent_allocation": "Crossover" }
