@@ -22,8 +22,10 @@ class GenerationController(pypline.Task):
                 < GenerationController.epsilon:
             return True
         message.generation += 1
+        message.percent = float(message.generation) / \
+            float(self.generations) * 100
         return message.generation > self.generations
 
     def getDescription(self):
-        return { "controller": "Generation Controller",
-                 "generations": self.starting_generations }
+        return {"controller": "Generation Controller",
+                "generations": self.starting_generations}

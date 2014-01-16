@@ -34,7 +34,7 @@ pipelines:
       - name: DeParentAllocatorCrossover
       - name: DeJongOneEvaluator
       - name: BetterReplacer
-      - name: TerminalLogger
+      - name: PercentRemainingLogger
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder

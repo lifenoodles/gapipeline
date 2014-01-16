@@ -29,6 +29,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
     dePayload.solution_size = solution_size
     dePayload.population_size = pop_size
     dePayload.start_time = time.time()
+    dePayload.percent = 0.0
     return dePayload
 
 
@@ -44,7 +45,7 @@ class DeJongOneInitialiser(pypline.Task):
         return de
 
     def getDescription(self):
-        return { "population": self.pop_size, "soltution_size": self.solution_size }
+        return {"population": self.pop_size, "soltution_size": self.solution_size}
 
 if __name__ == "__main__":
     p = initialise_random_de(10, 10, 0, 1)
