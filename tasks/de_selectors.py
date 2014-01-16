@@ -14,7 +14,7 @@ class CrossoverSelectorEach(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "selector": "Each" }
+        return {"selector": "Each"}
 
 
 @pypline.requires("population", "ancestors")
@@ -43,7 +43,7 @@ class CrossoverSelectorEachAncestor(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "selector": "Each w/ Ancestor", "replacement_rate": self.pr }
+        return {"selector": "Each w/ Ancestor", "replacement_rate": self.pr}
 
 
 @pypline.requires("population")
@@ -62,7 +62,7 @@ class BestSelector(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "selector": "Best" }
+        return {"selector": "Best"}
 
 
 @pypline.requires("population")
@@ -84,7 +84,7 @@ class RandomSelector(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "selector": "Random" }
+        return {"selector": "Random"}
 
 
 @pypline.requires("population", "base_solutions", "base_solutions_indices")
@@ -119,7 +119,7 @@ class DifferenceSelector(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "difference_selector": "Standard", "difference_n": self.n }
+        return {"difference_selector": "Standard", "difference_n": self.n}
 
 
 @pypline.requires("population", "base_solutions", "base_solutions_indices")
@@ -164,8 +164,8 @@ class DifferenceSelectorAncestor(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "difference_selector": "Standard", "difference_n": self.n,
-                 "difference_replacement_rate": self.pr }
+        return {"difference_selector": "Random", "difference_n": self.n,
+                "difference_replacement_rate": self.pr}
 
 
 @pypline.requires("difference_solutions", "trials")
@@ -180,7 +180,7 @@ class DeParentAllocatorDifference(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "parent_allocation": "Difference Vector" }
+        return {"parent_allocation": "Difference Vector"}
 
 
 @pypline.requires("crossover_solutions", "trials")
@@ -195,4 +195,4 @@ class DeParentAllocatorCrossover(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "parent_allocation": "Crossover" }
+        return {"parent_allocation": "Crossover"}
