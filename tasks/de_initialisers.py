@@ -45,7 +45,7 @@ class DeJongOneInitialiser(pypline.Task):
         return de
 
     def getDescription(self):
-        return {"population": self.pop_size, "soltution_size": self.solution_size}
+        return {"population": self.pop_size, "solution_size": self.solution_size}
 
 if __name__ == "__main__":
     p = initialise_random_de(10, 10, 0, 1)
