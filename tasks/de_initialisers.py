@@ -34,19 +34,43 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
 
 
 @pypline.provides("population", "initialisation")
-class DeJongOneInitialiser(pypline.Task):
+class DeInitialiser(pypline.Task):
     def __init__(self, pop_size, solution_size):
         self.pop_size = pop_size
         self.solution_size = solution_size
+
+    def process(self, message, pipeline):
+        raise NotImplementedError("Base DeInitialiser should not be called!")
+
+    def getDescription(self):
+        return {"population": self.pop_size, "solution_size": self.solution_size}
+
+
+class DeJongOneInitialiser(DeInitialiser):
+    def __init__(self, pop_size, solution_size):
+        super(DeJongOneInitialiser, self).__init__(pop_size, solution_size)
 
     def process(self, message, pipeline):
         de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
         de_evaluators.DeJongOneEvaluator().process(de, None)
         return de
 
-    def getDescription(self):
-        return {"population": self.pop_size, "solution_size": self.solution_size}
 
-if __name__ == "__main__":
-    p = initialise_random_de(10, 10, 0, 1)
-    print p.population
+class DeJongTwoInitialiser(DeInitialiser):
+    def __init__(self, pop_size, solution_size):
+        super(DeJongTwoInitialiser, self).__init__(pop_size, solution_size)
+
+    def process(self, message, pipeline):
+        de = initialise_random_de(self.pop_size, self.solution_size, -2.048, 2.048)
+        de_evaluators.DeJongTwoEvaluator().process(de, None)
+        return de
+
+
+class RastriginSixInitialiser(DeInitialiser):
+    def __init__(self, pop_size, solution_size):
+        super(RastriginSixInitialiser, self).__init__(pop_size, solution_size)
+
+    def process(self, message, pipeline):
+        de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
+        de_evaluators.RastriginSixEvaluator().process(de, None)
+        return de
