@@ -14,27 +14,27 @@ pipelines:
     controller:
       name: GenerationController
       params:
-        - 1000
+        - 10000
     initialisers:
-      - name: DeJongOneInitialiser
+      - name: RastriginSixInitialiser
         params:
-          - [50, 20]
+          - [20, 10]
     tasks:
       - name: RandomSelector
       - name: DifferenceSelector
         params:
-          - 1
+          - [1]
       - name: CrossoverSelectorEach
       - name: DeMutator
         params:
-          - 0.5
+          - 0.8
       - name: BinomialCrossover
         params:
           - 0.5
+      - name: RastriginSixEvaluator
       - name: DeParentAllocatorCrossover
-      - name: DeJongOneEvaluator
       - name: BetterReplacer
-      - name: PercentRemainingLogger
+      - name: TerminalLogger
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder
