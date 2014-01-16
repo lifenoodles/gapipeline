@@ -10,7 +10,7 @@ modules:
   - tasks/finalisers.py
 runs: 10
 pipelines:
-  - name: DeJongOnePipeline
+  - name: DeJongOnePipeline_DE
     controller:
       name: GenerationController
       params:
@@ -46,10 +46,50 @@ pipelines:
       - name: DeParentAllocatorCrossover
       - name: DeJongOneEvaluator
       - name: BetterReplacer
-      # - name: TerminalLogger
+      - name: PercentRemainingLogger
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder
-      # - name: MongoDbSaver
-        # params:
-        #   - ["ga_user", "ga_user", "ga", "results", "lifenoodles.com", "27018"]
+      - name: MongoDbSaver
+        params:
+          - ["ga_user", "ga_user", "ga", "de_results", "lifenoodles.com", "27018"]
+
+  - name: DeJongOnePipeline
+    controller:
+      name: GenerationController
+      params:
+        - 10000
+    initialisers:
+      - name: DeJongOneInitialiser
+        params:
+          - [50, 20]
+    tasks:
+      - name: RandomSelector
+      - name: DifferenceSelector
+        params:
+          - 1
+      - name: CrossoverSelectorEach
+      - name: DeMutator
+        params:
+          - 0.1
+          - 0.2
+          - 0.3
+          - 0.4
+          - 0.5
+      - name: BinomialCrossover
+        params:
+          - 0.1
+          - 0.2
+          - 0.3
+          - 0.4
+          - 0.5
+      - name: DeParentAllocatorCrossover
+      - name: DeJongOneEvaluator
+      - name: BetterReplacer
+      - name: PercentRemainingLogger
+    finalisers:
+      - name: DescriptionBuilder
+      - name: ResultsBuilder
+      - name: MongoDbSaver
+        params:
+          - ["ga_user", "ga_user", "ga", "de_results", "lifenoodles.com", "27018"]
