@@ -37,6 +37,7 @@ pipelines:
       - name: TerminalLogger
     finalisers:
       - name: DescriptionBuilder
+      - name: ResultsBuilder
       - name: MongoDbSaver
         params:
           - ["ga_user", "ga_user", "ga", "results", "lifenoodles.com", "27018"]

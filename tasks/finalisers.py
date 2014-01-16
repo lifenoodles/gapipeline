@@ -10,15 +10,33 @@ class DescriptionBuilder(pypline.Task):
         for task in tasklist:
             if hasattr(task, "getDescription"):
                 description.update(getattr(task, "getDescription")())
-        description.update({ "best": message.best.fitness, "generation": message.generation })
-        message.description = description
+        if not hasattr(message, "description"):
+            message.description = description
+        else:
+            message.description.update(description)
+        return message
+
+
+@pypline.provides("description")
+class ResultsBuilder(pypline.Task):
+    def process(self, message, pipeline):
+        import time
+        now = time.time()
+        description = {"best": message.best.fitness,
+                       "generation": message.generation,
+                       "end_time": now,
+                       "duration": message.start_time - now}
+        if not hasattr(message, "description"):
+            message.description = description
+        else:
+            message.description.update(description)
         return message
 
 
 @pypline.requires("description")
 class MongoDbSaver(pypline.Task):
     def __init__(self, username, password, db, collection,
-            server="localhost", port="27017"):
+                 server="localhost", port="27017"):
         self.username = username
         self.password = password
         self.db = db
@@ -38,7 +56,6 @@ class MongoDbSaver(pypline.Task):
             print message.description
             results.insert(message.description)
         except Exception as e:
-            print "Error connecting to db with connection string: %s" %connection_string
+            print "Error connecting to db with connection string: %s" % \
+                connection_string
             raise e
-
-
