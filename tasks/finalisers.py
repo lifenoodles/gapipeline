@@ -53,7 +53,6 @@ class MongoDbSaver(pypline.Task):
                 "mongodb://ga_user:ga_user@lifenoodles.com:27018/ga")
             db = client[self.db]
             results = db[self.collection]
-            print message.description
             results.insert(message.description)
         except Exception as e:
             print "Error connecting to db with connection string: %s" % \

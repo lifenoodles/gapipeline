@@ -36,4 +36,4 @@ class DeMutator(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "mutation_type": "Standard Mutation", "mutation_rate": self.f }
+        return {"mutation_type": "Standard Mutation", "mutation_rate": self.f}

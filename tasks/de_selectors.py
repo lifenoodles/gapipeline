@@ -119,7 +119,7 @@ class DifferenceSelector(pypline.Task):
         return message
 
     def getDescription(self):
-        return {"difference_selector": "Standard", "difference_n": self.n}
+        return {"difference_selector": "Random", "difference_n": self.n}
 
 
 @pypline.requires("population", "base_solutions", "base_solutions_indices")
