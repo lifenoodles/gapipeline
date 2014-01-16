@@ -25,7 +25,7 @@ class ResultsBuilder(pypline.Task):
         description = {"best": message.best.fitness,
                        "generation": message.generation,
                        "end_time": now,
-                       "duration": message.start_time - now}
+                       "duration": now - message.start_time}
         if not hasattr(message, "description"):
             message.description = description
         else:
