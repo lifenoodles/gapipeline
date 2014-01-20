@@ -18,7 +18,6 @@ The examples given include pipelines that log to terminal and pipelines that col
 
 Installing Requirements
 -----------------------
-Using Pip, run
-    pip install -r requirements.txt
+Using Pip, run `pip install -r requirements.txt`
 
 You should then be good to go
