@@ -15,3 +15,10 @@ A YAML specification is read and the required number of pipelines are created, t
 See the pipelines folder for examples of pipeline specifications with multiple parameters.
 The program in runner.py is used to actually construct and run the pipelines from a named file.
 The examples given include pipelines that log to terminal and pipelines that collate results and store them on a remote server running a mongodb instance.
+
+Installing Requirements
+-----------------------
+Using Pip, run
+    pip install -r requirements.txt
+
+You should then be good to go
