@@ -77,6 +77,9 @@ class RandomSelector(pypline.Task):
         base_solutions_indices = []
         for i in xrange(len(message.population)):
             rand = random.randint(0, len(message.population) - 1)
+            # make sure that the base vector is not i
+            while rand == i:
+                rand = random.randint(0, len(message.population) - 1)
             base_solutions.append(message.population[rand])
             base_solutions_indices.append(rand)
         message.base_solutions = base_solutions
