@@ -1,7 +1,9 @@
 import pypline
 import sys
 sys.path.append("tasks")
+sys.path.append("math")
 import representations
+import vector
 
 
 @pypline.requires("difference_solutions", "base_solutions")
@@ -17,20 +19,17 @@ class DeMutator(pypline.Task):
 
     def process(self, message, pipeline):
         for i in xrange(len(message.population)):
-            diff_vector = []
-            solution_size = len(message.population[i].genes)
             diff_count = len(message.difference_solutions[i])
-            for j in xrange(solution_size):
-                diff = 0
-                for k in range(diff_count // 2):
-                    diff += message.difference_solutions[i][k].genes[j]
-                for k in range(diff_count // 2, diff_count):
-                    diff -= message.difference_solutions[i][k].genes[j]
-                diff_vector.append(diff)
+            diff_vector = message.difference_solutions[i][0].genes
+            for k in range(1, diff_count // 2):
+                diff_vector = vector.add_vector(diff_vector, \
+                    message.difference_solutions[i][k].genes)
+            for k in range(diff_count // 2, diff_count):
+                diff_vector = vector.subtract_vector(diff_vector,
+                    message.difference_solutions[i][k].genes)
             trial = representations.Solution()
-            trial.genes = [x + (self.f * y)
-                           for x, y in
-                           zip(message.base_solutions[i].genes, diff_vector)]
+            trial.genes = vector.add_vector(message.base_solutions[i].genes,
+                vector.multiply_scalar(diff_vector, self.f))
             trial.generation = message.generation
             message.trials[i] = trial
         return message
