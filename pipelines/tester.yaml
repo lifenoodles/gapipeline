@@ -16,22 +16,22 @@ pipelines:
       params:
         - 10000
     initialisers:
-      - name: RastriginSixInitialiser
+      - name: DeJongTwoInitialiser
         params:
-          - [20, 10]
+          - [6, 2]
     tasks:
       - name: RandomSelector
-      - name: DifferenceSelector
+      - name: DifferenceSelectorAncestor
         params:
-          - [1]
+          - [1, 0.25]
       - name: CrossoverSelectorEach
       - name: DeMutator
         params:
-          - 0.8
-      - name: BinomialCrossover
+          - 0.95
+      - name: ExponentialCrossover
         params:
           - 0.5
-      - name: RastriginSixEvaluator
+      - name: DeJongTwoEvaluator
       - name: DeParentAllocatorCrossover
       - name: BetterReplacer
       - name: TerminalLogger

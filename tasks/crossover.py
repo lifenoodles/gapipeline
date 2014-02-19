@@ -40,11 +40,15 @@ class ExponentialCrossover(pypline.Task):
         for i, trial in enumerate(message.trials):
             length = len(trial.genes)
             index = random.randint(0, length - 1)
+            count = 0
             c = message.crossover_solutions[i]
-            for j in xrange(length):
-                while random.random() > self.cr:
-                    trial.genes[index] = c.genes[index]
-                    index = (index + 1) % length
+            while random.random() <= self.cr and count < length:
+                index = (index + 1) % length
+                count += 1
+            while count < length:
+                trial.genes[index] = c.genes[index]
+                index = (index + 1) % length
+                count += 1
         return message
 
     def getDescription(self):
