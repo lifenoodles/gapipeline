@@ -153,7 +153,7 @@ class DifferenceSelectorAncestor(pypline.Task):
             selected_solutions = []
             for j in selected_list:
                 if message.population[j].has_parents() \
-                        and random.random() < self.pr:
+                        and random.random() <= self.pr:
                     selected_solutions.append(
                         random.choice(message.population[j].parents))
                 else:
