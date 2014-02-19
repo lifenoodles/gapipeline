@@ -12,7 +12,7 @@ def generate_random_vector(size, lower, upper):
             for n in xrange(size)]
 
 
-def initialise_random_de(pop_size, solution_size, lower, upper):
+def initialise_random_de(pop_size, solution_size, lower, upper, target_fitness=0):
     """
     Construct a random population of n vectors based on upper and lower limit
     """
@@ -30,6 +30,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper):
     dePayload.population_size = pop_size
     dePayload.start_time = time.time()
     dePayload.percent = 0.0
+    dePayload.target_fitness = target_fitness
     return dePayload
 
 
