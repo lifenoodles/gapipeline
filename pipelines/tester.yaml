@@ -8,30 +8,32 @@ modules:
   - tasks/crossover.py
   - tasks/loggers.py
   - tasks/finalisers.py
+  - tasks/constrainers.py
 runs: 1
 pipelines:
   - name: DeJongOnePipeline
     controller:
       name: GenerationController
       params:
-        - 10000
+        - 1000
     initialisers:
-      - name: DeJongTwoInitialiser
+      - name: DeJongThreeInitialiser
         params:
-          - [6, 2]
+          - [10, 5]
     tasks:
       - name: RandomSelector
       - name: DifferenceSelectorAncestor
         params:
-          - [1, 0.25]
+          - [1, 1]
       - name: CrossoverSelectorEach
       - name: DeMutator
         params:
-          - 0.95
+          - 0.5
       - name: ExponentialCrossover
         params:
           - 0.5
-      - name: DeJongTwoEvaluator
+      - name: BoundsConstrainer
+      - name: DeJongThreeEvaluator
       - name: DeParentAllocatorCrossover
       - name: BetterReplacer
       - name: TerminalLogger
