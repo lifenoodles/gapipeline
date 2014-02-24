@@ -45,6 +45,26 @@ class DeJongTwoEvaluator(pypline.Task):
 
 @pypline.requires("trials")
 @pypline.provides("best")
+class DeJongThreeEvaluator(pypline.Task):
+    """
+    DejongThree function evaluator
+    """
+    def process(self, message, pipeline):
+        for solution in message.trials:
+            fitness = 6 * len(solution.genes)
+            for gene in solution.genes:
+                fitness += math.floor(gene)
+            solution.fitness = fitness
+            if message.best is None or solution.fitness < message.best.fitness:
+                message.best = solution
+        return message
+
+    def getDescription(self):
+        return { "problem": "Dejong3" }
+
+
+@pypline.requires("trials")
+@pypline.provides("best")
 class RastriginSixEvaluator(pypline.Task):
     """
     RastriginSix function evaluator

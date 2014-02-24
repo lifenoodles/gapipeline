@@ -69,6 +69,16 @@ class DeJongTwoInitialiser(DeInitialiser):
         return de
 
 
+class DeJongThreeInitialiser(DeInitialiser):
+    def __init__(self, pop_size, solution_size):
+        super(DeJongThreeInitialiser, self).__init__(pop_size, solution_size)
+
+    def process(self, message, pipeline):
+        de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
+        de_evaluators.DeJongThreeEvaluator().process(de, None)
+        return de
+
+
 class RastriginSixInitialiser(DeInitialiser):
     def __init__(self, pop_size, solution_size):
         super(RastriginSixInitialiser, self).__init__(pop_size, solution_size)
