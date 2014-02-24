@@ -1,5 +1,6 @@
 import pypline
 import math
+import random
 
 
 @pypline.requires("trials")
@@ -54,6 +55,26 @@ class DeJongThreeEvaluator(pypline.Task):
             fitness = 6 * len(solution.genes)
             for gene in solution.genes:
                 fitness += math.floor(gene)
+            solution.fitness = fitness
+            if message.best is None or solution.fitness < message.best.fitness:
+                message.best = solution
+        return message
+
+    def getDescription(self):
+        return { "problem": "Dejong3" }
+
+
+@pypline.requires("trials")
+@pypline.provides("best")
+class DeJongFourEvaluator(pypline.Task):
+    """
+    DejongFour modified as per Storn95
+    """
+    def process(self, message, pipeline):
+        for solution in message.trials:
+            fitness = 0
+            for i, gene in enumerate(solution.genes):
+                fitness += (gene ** 4) * (i + 1) + random.random()
             solution.fitness = fitness
             if message.best is None or solution.fitness < message.best.fitness:
                 message.best = solution
