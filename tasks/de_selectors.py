@@ -193,8 +193,11 @@ class DeParentAllocatorCrossover(pypline.Task):
     allocates parents to solutions from the crossover pool
     """
     def process(self, message, pipeline):
-        for solution, trial in zip(message.crossover_solutions, message.trials):
-            trial.parents.append(solution)
+        for parents, trial in zip(
+                zip(message.crossover_solutions, message.base_solutions),
+                message.trials):
+            for parent in parents:
+                trial.parents.append(parent)
         return message
 
     def getDescription(self):
