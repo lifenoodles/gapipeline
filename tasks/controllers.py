@@ -18,8 +18,9 @@ class GenerationController(pypline.Task):
             "%d is greater than cutoff of %d." % \
             (message.generation, self.generations)
         if message.best is not None \
-            and abs(message.best.fitness - message.target_fitness) \
-                < GenerationController.epsilon:
+            and (abs(message.best.fitness - message.target_fitness) \
+                < GenerationController.epsilon or \
+                message.best.fitness < message.target_fitness):
             return True
         message.generation += 1
         message.percent = float(message.generation) / \
