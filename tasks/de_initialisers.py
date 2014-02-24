@@ -18,6 +18,8 @@ def initialise_random_de(pop_size, solution_size, lower, upper, target_fitness=0
     """
     import representations
     dePayload = representations.DePayload()
+    dePayload.lower = lower
+    dePayload.upper = upper
     solutions = []
     for i in xrange(pop_size):
         solution = representations.Solution()

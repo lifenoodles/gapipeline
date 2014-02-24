@@ -32,6 +32,8 @@ class DePayload(object):
         self.population_size = 0
         self.solution_size = 0
         self.start_time = 0
+        self.lower = 0
+        self.upper = 1
 
     def __str__(self):
         string = "Generation: %s\nBest: %s\n" % (self.generation, self.best)
