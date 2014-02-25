@@ -22,7 +22,8 @@ class ResultsBuilder(pypline.Task):
     def process(self, message, pipeline):
         import time
         now = time.time()
-        description = {"best": message.best.fitness,
+        description = {"best": message.best,
+                       "best_fitness": message.best.fitness,
                        "generation": message.generation,
                        "end_time": now,
                        "duration": now - message.start_time}
@@ -30,6 +31,16 @@ class ResultsBuilder(pypline.Task):
             message.description = description
         else:
             message.description.update(description)
+        return message
+
+
+@pypline.requires("description")
+class ResultsPrinter(pypline.Task):
+    def process(self, message, pipeline):
+        print "-" * 10
+        for k, v in message.description.items():
+            print "%s: %s" % (k, v)
+        print "-" * 10
         return message
 
 
