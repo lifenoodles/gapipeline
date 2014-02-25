@@ -38,8 +38,9 @@ class ResultsBuilder(pypline.Task):
 class ResultsPrinter(pypline.Task):
     def process(self, message, pipeline):
         print "-" * 10
-        for k, v in message.description.items():
-            print "%s: %s" % (k, v)
+        keys = sorted(message.description.keys())
+        for k in keys:
+            print "%s: %s" % (k, message.description[k])
         print "-" * 10
         return message
 
