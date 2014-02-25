@@ -24,12 +24,12 @@ pipelines:
       - name: RandomSelector
       - name: DifferenceSelectorAncestor
         params:
-          - [1, 1]
+          - [1, 0]
       - name: CrossoverSelectorEach
       - name: DeMutator
         params:
           - 0.5
-      - name: ExponentialCrossover
+      - name: BinomialCrossover
         params:
           - 0.5
       - name: BoundsConstrainer
@@ -40,3 +40,4 @@ pipelines:
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder
+      - name: ResultsPrinter
