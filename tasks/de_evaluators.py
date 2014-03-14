@@ -103,3 +103,40 @@ class RastriginSixEvaluator(pypline.Task):
 
     def getDescription(self):
         return { "problem": "RastriginSix" }
+
+
+@pypline.requires("trials")
+@pypline.provides("best")
+class PolynomialFittingEvaluator(pypline.Task):
+    """
+    Polynomial fitting evaluator for clogj * z^j for j = (0..2k)
+    """
+    def fc(self, cs, z):
+        f = 0
+        for j, c in enumerate(cs):
+            f += c * (z ** j)
+
+    def t2k(self, z):
+
+
+    def process(self, message, pipeline):
+        for solution in message.trials:
+            fitness = 0
+            for p in xrange(100):
+                pi = random.random() * 2 - 1
+                # compute fc(pi)
+                fcpi = self.fc(solution.genes, pi)
+                if -1 > fcpi or fcpi > 1:
+                    fitness += (1 - fcpi) ** 2
+            fcpi = fc(solution.genes, 1.2)
+
+
+            fcpi = fc(solution.genes, -1.2)
+
+            solution.fitness = fitness
+            if message.best is None or solution.fitness < message.best.fitness:
+                message.best = solution
+        return message
+
+    def getDescription(self):
+        return { "problem": "RastriginSix" }
