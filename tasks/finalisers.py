@@ -70,3 +70,4 @@ class MongoDbSaver(pypline.Task):
             print "Error connecting to db with connection string: %s" % \
                 connection_string
             raise e
+        return message
