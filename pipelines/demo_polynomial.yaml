@@ -1,0 +1,46 @@
+modules:
+  - tasks/controllers.py
+  - tasks/de_evaluators.py
+  - tasks/de_initialisers.py
+  - tasks/de_selectors.py
+  - tasks/replacers.py
+  - tasks/mutators.py
+  - tasks/crossover.py
+  - tasks/loggers.py
+  - tasks/finalisers.py
+  - tasks/visualisers.py
+  - tasks/constrainers.py
+  - tasks/waiters.py
+runs: 1
+pipelines:
+  - name: Demo_polynomail_DE
+    controller:
+      name: GenerationController
+      params:
+        - 10000
+    initialisers:
+      - name: PolynomialFittingInitialiser
+        params:
+          - [60, 9]
+    tasks:
+      - name: BestSelector
+      - name: DifferenceSelectorAncestor
+        params:
+          - [2, 0.5]
+      - name: DeMutator
+        params:
+          - 0.8
+      - name: CrossoverSelectorEach
+      - name: ExponentialCrossover
+        params:
+          - 1
+      # - name: BoundsConstrainer
+      - name: PolynomialFittingEvaluator
+      - name: BetterReplacer
+      - name: TerminalLogger
+      - name: PolynomialFittingVisualiser
+    finalisers:
+      - name: DescriptionBuilder
+      - name: ResultsBuilder
+      - name: ResultsPrinter
+      - name: KeyPressWaiter

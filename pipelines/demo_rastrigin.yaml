@@ -1,0 +1,40 @@
+modules:
+  - tasks/controllers.py
+  - tasks/de_evaluators.py
+  - tasks/de_initialisers.py
+  - tasks/de_selectors.py
+  - tasks/replacers.py
+  - tasks/mutators.py
+  - tasks/crossover.py
+  - tasks/loggers.py
+  - tasks/finalisers.py
+  - tasks/visualisers.py
+  - tasks/constrainers.py
+runs: 1
+pipelines:
+  - name: Demo_DE
+    controller:
+      name: GenerationController
+      params:
+        - 100
+    initialisers:
+      - name: RastriginSixInitialiser
+        params:
+          - [20, 1]
+    tasks:
+      - name: RandomSelector
+      - name: DifferenceSelectorAncestor
+        params:
+          - [1, 0]
+      - name: DeMutator
+        params:
+          - 0.5
+      - name: CrossoverSelectorEach
+      - name: BoundsConstrainer
+      - name: RastriginSixEvaluator
+      - name: BetterReplacer
+      - name: RastriginSixVisualiser
+    finalisers:
+      - name: DescriptionBuilder
+      - name: ResultsBuilder
+      - name: ResultsPrinter
