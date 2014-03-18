@@ -1,4 +1,5 @@
 import pypline
+import cPickle
 
 
 @pypline.requires("trials")
@@ -26,4 +27,14 @@ class PercentRemainingLogger(pypline.Task):
         import sys
         print "\r%.1f%%..." % message.percent,
         sys.stdout.flush()
+        return message
+
+
+@pypline.requires("best")
+class BestPickler(pypline.Task):
+    def __init__(self, fileName="output.txt"):
+        self._file = open(fileName, "w")
+
+    def process(self, message, pipeline):
+        cPickle.dump(message.best, self._file)
         return message
