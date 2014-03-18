@@ -31,11 +31,14 @@ class RastriginSixVisualiser(pypline.Task):
         self._last_colour = 1
         pyplot.ion()
     def process(self, message, pipline):
-        genes = [f.genes[0] for f in message.trials]
-        fitness = [f.fitness for f in message.trials]
+        genes = [f.genes[0] for f in message.population]
+        fitness = [f.fitness for f in message.population]
+        genes_trials = [f.genes[0] for f in message.trials]
+        fitness_trials = [f.fitness for f in message.trials]
         pyplot.gcf().clear()
         pyplot.plot(self._range, self._values)
         pyplot.plot(genes, fitness, 'ro')
+        pyplot.plot(genes_trials, fitness_trials, 'go')
         pyplot.pause(0.0001)
         time.sleep(0.5)
         self._last_genes = genes

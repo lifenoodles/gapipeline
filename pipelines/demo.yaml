@@ -29,7 +29,7 @@ pipelines:
           - [1, 0]
       - name: DeMutator
         params:
-          - 0.6
+          - 0.7
       - name: CrossoverSelectorEach
       - name: BoundsConstrainer
       - name: RastriginSixEvaluator
