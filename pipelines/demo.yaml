@@ -10,6 +10,7 @@ modules:
   - tasks/finalisers.py
   - tasks/visualisers.py
   - tasks/constrainers.py
+  - tasks/waiters.py
 runs: 1
 pipelines:
   - name: Demo_DE
@@ -20,7 +21,7 @@ pipelines:
     initialisers:
       - name: RastriginSixInitialiser
         params:
-          - [20, 1]
+          - [10, 1]
     tasks:
       - name: RandomSelector
       - name: DifferenceSelectorAncestor
@@ -28,13 +29,15 @@ pipelines:
           - [1, 0]
       - name: DeMutator
         params:
-          - 0.5
+          - 0.6
       - name: CrossoverSelectorEach
       - name: BoundsConstrainer
       - name: RastriginSixEvaluator
       - name: BetterReplacer
       - name: RastriginSixVisualiser
+      - name: KeyPressWaiter
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder
       - name: ResultsPrinter
+

@@ -21,26 +21,28 @@ pipelines:
     initialisers:
       - name: PolynomialFittingInitialiser
         params:
-          - [60, 9]
+          - [50, 9]
     tasks:
       - name: BestSelector
       - name: DifferenceSelectorAncestor
         params:
-          - [2, 0.5]
+          - [2, 0]
       - name: DeMutator
         params:
           - 0.8
       - name: CrossoverSelectorEach
-      - name: ExponentialCrossover
+      - name: BinomialCrossover
         params:
           - 1
       # - name: BoundsConstrainer
       - name: PolynomialFittingEvaluator
       - name: BetterReplacer
       - name: TerminalLogger
-      - name: PolynomialFittingVisualiser
+      # - name: PolynomialFittingVisualiser
+      - name: BestPickler
+        params: ["demo-out-1"]
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder
       - name: ResultsPrinter
-      - name: KeyPressWaiter
+      # - name: KeyPressWaiter

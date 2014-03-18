@@ -23,7 +23,7 @@ def fc(cs, z):
 
 class RastriginSixVisualiser(pypline.Task):
     def __init__(self):
-        self._range = [x for x in float_range(-1.2, 1.2, 0.05)]
+        self._range = [x for x in float_range(-5.12, 5.12, 0.1)]
         self._values = [rastrigin(x) for x in self._range]
         self._last_fitness = []
         self._last_genes = []
