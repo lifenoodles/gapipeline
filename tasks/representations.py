@@ -14,6 +14,15 @@ class Solution(object):
     def __repr__(self):
         return str(self)
 
+    def __getstate__(self):
+        return [self.genes, self.fitness, self.generation, self.parents]
+
+    def __setstate__(self, array):
+        self.genes = array[0]
+        self.fitness = array[1]
+        self.generation = array[2]
+        self.parents = array[3]
+
     def has_parents(self):
         return len(self.parents) > 0
 
