@@ -36,6 +36,7 @@ pyplot.ion()
 
 generation = 1
 done1 = done2 = False
+first = True
 while True:
     try:
         best1 = cPickle.load(f1)
@@ -79,8 +80,12 @@ while True:
     pyplot.xlim([-1.5, 1.5])
     pyplot.axhline(0, color='black')
     pyplot.axvline(0, color='black')
+
 # pyplot.plot(genes, fitness, 'ro')
     pyplot.pause(0.0001)
+    if first:
+        first = not first
+        raw_input()
 # self._last_genes = genes
 # self._last_fitness = fitness
 
