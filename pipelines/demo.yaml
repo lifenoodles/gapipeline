@@ -17,7 +17,7 @@ pipelines:
     controller:
       name: GenerationController
       params:
-        - 100
+        - 10000
     initialisers:
       - name: RastriginSixInitialiser
         params:
@@ -34,8 +34,7 @@ pipelines:
       - name: BoundsConstrainer
       - name: RastriginSixEvaluator
       - name: BetterReplacer
-      - name: RastriginSixVisualiser
-      - name: KeyPressWaiter
+      - name: PercentRemainingLogger
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder

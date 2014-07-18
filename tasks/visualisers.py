@@ -30,6 +30,7 @@ class RastriginSixVisualiser(pypline.Task):
         self._colours = ['ro', 'go']
         self._last_colour = 1
         pyplot.ion()
+
     def process(self, message, pipline):
         genes = [f.genes[0] for f in message.population]
         fitness = [f.fitness for f in message.population]
@@ -59,9 +60,8 @@ class PolynomialFittingVisualiser(pypline.Task):
         self._colours = ['ro', 'go']
         self._last_colour = 1
         pyplot.ion()
+
     def process(self, message, pipline):
-        # genes = [f.genes[0] for f in message.trials]
-        # fitness = [f.fitness for f in message.trials]
         if self._last_best == message.best:
             return message
         self._last_best = message.best
@@ -76,10 +76,7 @@ class PolynomialFittingVisualiser(pypline.Task):
         pyplot.xlim([-1.5, 1.5])
         pyplot.axhline(0, color='black')
         pyplot.axvline(0, color='black')
-        # pyplot.plot(genes, fitness, 'ro')
         pyplot.pause(0.0001)
-        # self._last_genes = genes
-        # self._last_fitness = fitness
         return message
 
 if __name__ == "__main__":

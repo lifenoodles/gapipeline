@@ -8,7 +8,7 @@ modules:
   - tasks/crossover.py
   - tasks/loggers.py
   - tasks/finalisers.py
-runs: 10
+runs: 1
 pipelines:
   - name: RastriginSixPipeline_DE
     controller:
@@ -24,71 +24,17 @@ pipelines:
       - name: DifferenceSelectorAncestor
         params:
           - [1, 0.1]
-          - [1, 0.2]
-          - [1, 0.3]
-          - [1, 0.4]
-          - [1, 0.5]
       - name: DeMutator
         params:
-          - 0.1
           - 0.2
-          - 0.3
-          - 0.4
-          - 0.5
       - name: CrossoverSelectorEach
       - name: BinomialCrossover
         params:
-          - 0.1
-          - 0.2
-          - 0.3
-          - 0.4
           - 0.5
       - name: RastriginSixEvaluator
       - name: BetterReplacer
-      - name: PercentRemainingLogger
+      - name: TerminalLogger
     finalisers:
       - name: DescriptionBuilder
       - name: ResultsBuilder
-      - name: MongoDbSaver
-        params:
-          - ["ga_user", "ga_user", "ga", "de_results", "lifenoodles.com", "27018"]
-
-  - name: RastriginSixPipeline
-    controller:
-      name: GenerationController
-      params:
-        - 10000
-    initialisers:
-      - name: RastriginSixInitialiser
-        params:
-          - [50, 20]
-    tasks:
-      - name: RandomSelector
-      - name: DifferenceSelector
-        params:
-          - 1
-      - name: DeMutator
-        params:
-          - 0.1
-          - 0.2
-          - 0.3
-          - 0.4
-          - 0.5
-      - name: CrossoverSelectorEach
-      - name: BinomialCrossover
-        params:
-          - 0.1
-          - 0.2
-          - 0.3
-          - 0.4
-          - 0.5
-      - name: DeParentAllocatorCrossover
-      - name: DeJongOneEvaluator
-      - name: BetterReplacer
-      - name: PercentRemainingLogger
-    finalisers:
-      - name: DescriptionBuilder
-      - name: ResultsBuilder
-      - name: MongoDbSaver
-        params:
-          - ["ga_user", "ga_user", "ga", "de_results", "lifenoodles.com", "27018"]
+      - name: ResultsPrinter
