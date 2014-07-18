@@ -15,9 +15,11 @@ class ParentLogger(pypline.Task):
 @pypline.requires("best")
 class TerminalLogger(pypline.Task):
     def process(self, message, pipeline):
-        print "Generation: %s" % message.generation
-        print "Best: %s" % message.best
-        print "Fitness: %f" % message.best.fitness
+        print "Generation:%s" % message.generation,
+        print " Fitness:%f" % message.best.fitness,
+        avg_fitness = sum(x.fitness for x in message.population) \
+            / len(message.population)
+        print " Average:{}".format(avg_fitness)
         return message
 
 
