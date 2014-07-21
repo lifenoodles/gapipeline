@@ -37,11 +37,11 @@ class ResultsBuilder(pypline.Task):
 @pypline.requires("description")
 class ResultsPrinter(pypline.Task):
     def process(self, message, pipeline):
-        print "-" * 10
+        print("-" * 10)
         keys = sorted(message.description.keys())
         for k in keys:
-            print "%s: %s" % (k, message.description[k])
-        print "-" * 10
+            print("{}:{}".format(k, message.description[k]))
+        print("-" * 10)
         return message
 
 

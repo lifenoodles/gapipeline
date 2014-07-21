@@ -129,12 +129,14 @@ class DifferenceSelector(pypline.Task):
 @pypline.provides("difference_solutions")
 class DifferenceSelectorAncestor(pypline.Task):
     """
-    implements a difference selector that occasionally selects a parent of a
-    random solution from the population instead of the random solution itself
+    implements a difference selector that occasionally selects a
+    parent of a random solution from the population instead of the
+    random solution itself
 
     Arguments:
     n -- The number of pairs to select from the population
-    pr -- The probability that the selected solutions ancestor will be used instead
+    pr -- The probability that the selected solutions ancestor will be
+        used instead
     """
     def __init__(self, n, pr):
         self.n = n
