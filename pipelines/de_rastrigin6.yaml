@@ -8,22 +8,22 @@ modules:
   - tasks/crossover.py
   - tasks/loggers.py
   - tasks/finalisers.py
-runs: 1
+runs: 10
 pipelines:
   - name: RastriginSixPipeline_DE
     controller:
       name: GenerationController
       params:
-        - 10000
+        - 500
     initialisers:
       - name: RastriginSixInitialiser
         params:
-          - [50, 20]
+          - [100, 100]
     tasks:
       - name: RandomSelector
       - name: DifferenceSelectorAncestor
         params:
-          - [1, 0.1]
+          - [2, 0.1]
       - name: DeMutator
         params:
           - 0.2
@@ -38,3 +38,6 @@ pipelines:
       - name: DescriptionBuilder
       - name: ResultsBuilder
       - name: ResultsPrinter
+      - name: FileResultsPrinter
+        params:
+          - "results/r6-standard"
