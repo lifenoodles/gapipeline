@@ -46,6 +46,28 @@ class ResultsPrinter(pypline.Task):
 
 
 @pypline.requires("description")
+class FileResultsPrinter(pypline.Task):
+    def __init__(self, filename):
+        import os
+        self.filename = filename
+        try:
+            os.remove(filename)
+            os.makedirs(os.path.dirname(filename))
+        except:
+            pass
+
+    def process(self, message, pipeline):
+        with open(self.filename, "a") as outfile:
+            outfile.write("{}\n".format("-" * 10))
+            keys = sorted(message.description.keys())
+            for k in keys:
+                outfile.write("{}:{}\n".format(
+                    k, message.description[k]))
+            outfile.write("{}\n".format("-" * 10))
+            return message
+
+
+@pypline.requires("description")
 class MongoDbSaver(pypline.Task):
     def __init__(self, username, password, db, collection,
                  server="localhost", port="27017"):
