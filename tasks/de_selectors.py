@@ -25,7 +25,8 @@ class CrossoverSelectorEachAncestor(pypline.Task):
     to be used for crossover
 
     Arguments:
-    pr -- The probability that the selected solutions ancestor will be used instead
+    pr -- The probability that the selected solutions ancestor will
+        be used instead
     """
     def __init__(self, pr):
         self.pr = pr
@@ -55,8 +56,9 @@ class BestSelector(pypline.Task):
     """
     def process(self, message, pipeline):
         best_index, best = min(enumerate(message.population),
-                               key=lambda (x, y): y.fitness)
-        message.base_solutions = [best for i in xrange(len(message.population))]
+                               key=lambda x, y: y.fitness)
+        message.base_solutions = [
+            best for i in xrange(len(message.population))]
         message.base_solutions_indices = [
             best_index for i in xrange(len(message.population))]
         return message
@@ -90,7 +92,8 @@ class RandomSelector(pypline.Task):
         return {"selector": "Random"}
 
 
-@pypline.requires("population", "base_solutions", "base_solutions_indices")
+@pypline.requires("population", "base_solutions",
+                  "base_solutions_indices")
 @pypline.provides("difference_solutions")
 class DifferenceSelector(pypline.Task):
     """
@@ -113,19 +116,21 @@ class DifferenceSelector(pypline.Task):
                 selected.add(random.randint(0, len(message.population) - 1))
             selected_list = list(selected)
             random.shuffle(selected_list)
-            selection_list.append([message.population[x] for x in selected_list])
+            selection_list.append([
+                message.population[x] for x in selected_list])
         message.difference_solutions = selection_list
         assert len(message.difference_solutions[0]) == self.n * 2, \
-            "Incorrect number of solutions selected for difference vector" \
-            "generation, expected %d, but found %d" % \
-            (self.n * 2, len(message.difference_solutions[0]))
+            "Incorrect number of solutions selected for difference" \
+            "vector generation, expected {}, but found {}".format(
+                (self.n * 2, len(message.difference_solutions[0])))
         return message
 
     def getDescription(self):
         return {"difference_selector": "Random", "difference_n": self.n}
 
 
-@pypline.requires("population", "base_solutions", "base_solutions_indices")
+@pypline.requires("population", "base_solutions",
+                  "base_solutions_indices")
 @pypline.provides("difference_solutions")
 class DifferenceSelectorAncestor(pypline.Task):
     """
@@ -173,6 +178,13 @@ class DifferenceSelectorAncestor(pypline.Task):
                 "difference_replacement_rate": self.pr}
 
 
+@pypline.requires("population", "base_solutions",
+                  "base_solutions_indices")
+@pypline.provides("difference_solutions")
+class DeDifferenceSelectorPool(pypline.Task):
+    pass
+
+
 @pypline.requires("difference_solutions", "trials")
 @pypline.provides("ancestors")
 class DeParentAllocatorDifference(pypline.Task):
@@ -194,12 +206,18 @@ class DeParentAllocatorCrossover(pypline.Task):
     """
     allocates parents to solutions from the crossover pool
     """
+    def __init__(self, u):
+        self.u = u
+
     def process(self, message, pipeline):
-        for parents, trial in zip(
-                zip(message.crossover_solutions, message.base_solutions),
+        for cs, bs, trial in zip(
+                message.crossover_solutions,
+                message.base_solutions,
                 message.trials):
-            for parent in parents:
-                trial.parents.append(parent)
+            if not trial.has_parents() or random.random() < self.u:
+                trial.parents = [cs, bs]
+            else:
+                trial.parents = random.choice([cs, bs]).parents
         return message
 
     def getDescription(self):

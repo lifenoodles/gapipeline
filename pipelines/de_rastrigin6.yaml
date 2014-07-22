@@ -23,11 +23,14 @@ pipelines:
       - name: RandomSelector
       - name: DifferenceSelectorAncestor
         params:
-          - [2, 0.1]
+          - [2, 0.25]
       - name: DeMutator
         params:
-          - 0.2
+          - 0.1
       - name: CrossoverSelectorEach
+      - name: DeParentAllocatorCrossover
+        params:
+          - 0.1
       - name: BinomialCrossover
         params:
           - 0.5
@@ -38,6 +41,3 @@ pipelines:
       - name: DescriptionBuilder
       - name: ResultsBuilder
       - name: ResultsPrinter
-      - name: FileResultsPrinter
-        params:
-          - "results/r6-standard"
