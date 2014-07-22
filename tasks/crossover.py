@@ -22,7 +22,7 @@ class BinomialCrossover(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "crossover_type": "Binomial Crossover", "CR": self.cr }
+        return {"crossover_type": "Binomial Crossover", "CR": self.cr}
 
 
 @pypline.requires("crossover_solutions", "trials")
@@ -52,4 +52,4 @@ class ExponentialCrossover(pypline.Task):
         return message
 
     def getDescription(self):
-        return { "crossover_type": "Exponential Crossover", "CR": self.cr }
+        return {"crossover_type": "Exponential Crossover", "CR": self.cr}
