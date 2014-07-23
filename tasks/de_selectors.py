@@ -178,11 +178,41 @@ class DifferenceSelectorAncestor(pypline.Task):
                 "difference_replacement_rate": self.pr}
 
 
-@pypline.requires("population", "base_solutions",
-                  "base_solutions_indices")
+@pypline.requires("population", "base_solutions", "base_solutions_indices",
+                  "ancestor_pool")
 @pypline.provides("difference_solutions")
 class DeDifferenceSelectorPool(pypline.Task):
-    pass
+    """
+    implements a difference selector that occasionally selects from a pool
+    of ancestors instead of from the population
+    """
+    def __init__(self, n, u):
+        self.n = n
+        self.u = u
+
+    def process(self, message, pipeline):
+        assert self.n * 2 <= len(message.population) + 1, \
+            "Population is too small for chosen amount of diff vectors!"
+        difference_solutions = []
+        for i in message.base_solutions_indices:
+            if len(message.ancestor_pool) > 0:
+                num_ancestors = len(x for x in random.random() if x < self.u)
+            else:
+                num_ancestors = 0
+            num_standard = self.n * 2 - num_ancestors
+            selected = random.sample(message.ancestor_pool), num_ancestors
+            selected.extend(random.sample(
+                message.population[:i].extend(message.population[i + 1:]),
+                num_standard))
+            difference_solutions.append(selected)
+        message.difference_solutions = difference_solutions
+        assert len(message.difference_solutions) == len(message.population), \
+            "population length must be equal to difference vector length"
+        assert len(message.difference_solutions[0]) == self.n * 2, \
+            "Incorrect number of solutions selected for difference" \
+            " vector generation, expected {}, but found {}".format(
+                self.n * 2, len(message.difference_solutions[0]))
+        return message
 
 
 @pypline.requires("difference_solutions", "trials")
