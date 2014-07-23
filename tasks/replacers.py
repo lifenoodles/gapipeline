@@ -11,6 +11,9 @@ class BetterReplacer(pypline.Task):
                 message.population[i] = message.trials[i]
         return message
 
+    def getDescription(self):
+        return {"replacer": "Better"}
+
 
 @pypline.requires("population", "trials")
 class AllReplacer(pypline.Task):
@@ -19,3 +22,6 @@ class AllReplacer(pypline.Task):
                "Population length and candidate length are not equal!")
         message.population = list(message.trials)
         return message
+
+    def getDescription(self):
+        return {"replacer": "All"}
