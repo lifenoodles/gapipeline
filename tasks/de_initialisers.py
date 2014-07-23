@@ -101,16 +101,19 @@ class RastriginSixInitialiser(DeInitialiser):
         super(RastriginSixInitialiser, self).__init__(pop_size, solution_size)
 
     def process(self, message, pipeline):
-        de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
+        de = initialise_random_de(
+            self.pop_size, self.solution_size, -5.12, 5.12)
         de_evaluators.RastriginSixEvaluator().process(de, None)
         return de
 
 
 class PolynomialFittingInitialiser(DeInitialiser):
     def __init__(self, pop_size, solution_size):
-        super(PolynomialFittingInitialiser, self).__init__(pop_size, solution_size)
+        super(PolynomialFittingInitialiser, self).__init__(
+            pop_size, solution_size)
 
     def process(self, message, pipeline):
-        de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
+        de = initialise_random_de(
+            self.pop_size, self.solution_size, -5.12, 5.12)
         de_evaluators.PolynomialFittingEvaluator().process(de, None)
         return de
