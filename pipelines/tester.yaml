@@ -20,24 +20,24 @@ pipelines:
     initialisers:
       - name: DeJongOneInitialiser
         params:
-          - [10, 30]
+          - [10, 10]
     tasks:
+      - name: AncestorPoolFiller
+        params:
+          - 0.5
       - name: RandomSelector
-      - name: DifferenceSelectorAncestor
+      - name: DeDifferenceSelectorPool
         params:
           - [1, 0.5]
       - name: CrossoverSelectorEach
       - name: DeMutator
         params:
-          - 0.5
+          - 0.2
       - name: BinomialCrossover
         params:
           - 0.5
       - name: BoundsConstrainer
-      - name: DeJongFourEvaluator
-      - name: DeParentAllocatorCrossover
-        params:
-          - 0.1
+      - name: DeJongOneEvaluator
       - name: BetterReplacer
       - name: TerminalLogger
     finalisers:
