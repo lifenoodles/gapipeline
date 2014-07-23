@@ -191,9 +191,16 @@ class DeParentAllocatorDifference(pypline.Task):
     """
     allocates parents to solutions from the difference vector pool
     """
+    def __init__(self, u):
+        self.u = u
+
     def process(self, message, pipeline):
-        for i, trial in enumerate(message.trials):
-            trial.parents = message.difference_solutions[i]
+        for diff_vectors, trial in zip(
+                message.difference_solutions, message.trials):
+            if not trial.has_parents() or random.random() < self.u:
+                trial.parents = diff_vectors
+            else:
+                trial.parents = random.choice(diff_vectors).parents
         return message
 
     def getDescription(self):
