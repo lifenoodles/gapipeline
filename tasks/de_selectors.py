@@ -110,7 +110,7 @@ class DifferenceSelector(pypline.Task):
         assert self.n * 2 <= len(message.population) + 1, \
             "Population is too small for chosen amount of diff vectors!"
         assert len(message.population) == \
-            len(message.base_solution_indices), \
+            len(message.base_solutions_indices), \
             "Population length and number of base vectors must match"
         difference_solutions = []
         for i, solution in zip(message.base_solutions_indices,
@@ -175,7 +175,7 @@ class DifferenceSelectorAncestor(pypline.Task):
 
     def getDescription(self):
         return {"difference_selector": "Random", "difference_n": self.n,
-                "difference_replacement_rate": self.pr}
+                "difference_usage_rate": self.pr}
 
 
 @pypline.requires("population", "base_solutions", "base_solutions_indices",
@@ -196,13 +196,15 @@ class DeDifferenceSelectorPool(pypline.Task):
         difference_solutions = []
         for i in message.base_solutions_indices:
             if len(message.ancestor_pool) > 0:
-                num_ancestors = len(x for x in random.random() if x < self.u)
+                num_ancestors = len([
+                    x for x in [random.random() for _ in xrange(self.n * 2)]
+                    if x < self.u])
             else:
                 num_ancestors = 0
             num_standard = self.n * 2 - num_ancestors
-            selected = random.sample(message.ancestor_pool), num_ancestors
+            selected = random.sample(message.ancestor_pool, num_ancestors)
             selected.extend(random.sample(
-                message.population[:i].extend(message.population[i + 1:]),
+                message.population[:i] + message.population[i + 1:],
                 num_standard))
             difference_solutions.append(selected)
         message.difference_solutions = difference_solutions
@@ -213,6 +215,10 @@ class DeDifferenceSelectorPool(pypline.Task):
             " vector generation, expected {}, but found {}".format(
                 self.n * 2, len(message.difference_solutions[0]))
         return message
+
+    def getDescription(self):
+        return {"difference_selector": "Random/Pool", "difference_n": self.n,
+                "difference_usage_rate": self.u}
 
 
 @pypline.requires("difference_solutions", "trials")
@@ -260,3 +266,26 @@ class DeParentAllocatorCrossover(pypline.Task):
     def getDescription(self):
         return {"parent_allocation": "Crossover",
                 "difference_update_rate": self.u}
+
+
+@pypline.requires("population")
+@pypline.provides("ancestor_pool")
+class AncestorPoolFiller(pypline.Task):
+    """
+    fills the ancestor pool from the current population
+    """
+    def __init__(self, r):
+        self.r = r
+
+    def process(self, message, pipeline):
+        if not hasattr(message, "ancestor_pool"):
+            message.ancestor_pool = list(message.population)
+        message.ancestor_pool = [
+            s if random.random() < self.r else a for s, a in zip(
+                message.population, message.ancestor_pool)]
+        assert len(message.population) == len(message.ancestor_pool), \
+            "population and ancestor_pool should be the same size"
+        return message
+
+    def getDescription(self):
+        return {"ancestor_type": "Pool", "ancestor_update_rate": self.r}
