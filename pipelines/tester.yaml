@@ -9,22 +9,23 @@ modules:
   - tasks/loggers.py
   - tasks/finalisers.py
   - tasks/constrainers.py
+  - tasks/waiters.py
 runs: 1
 pipelines:
-  - name: DeJongOnePipeline
+  - name: DeJongFourPipeline
     controller:
       name: GenerationController
       params:
-        - 10000
+        - 1000
     initialisers:
-      - name: DeJongFourInitialiser
+      - name: DeJongOneInitialiser
         params:
           - [10, 30]
     tasks:
       - name: RandomSelector
       - name: DifferenceSelectorAncestor
         params:
-          - [1, 0]
+          - [1, 0.5]
       - name: CrossoverSelectorEach
       - name: DeMutator
         params:
@@ -35,6 +36,8 @@ pipelines:
       - name: BoundsConstrainer
       - name: DeJongFourEvaluator
       - name: DeParentAllocatorCrossover
+        params:
+          - 0.1
       - name: BetterReplacer
       - name: TerminalLogger
     finalisers:

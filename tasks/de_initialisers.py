@@ -12,7 +12,8 @@ def generate_random_vector(size, lower, upper):
             for n in xrange(size)]
 
 
-def initialise_random_de(pop_size, solution_size, lower, upper, target_fitness=0):
+def initialise_random_de(pop_size, solution_size, lower,
+                         upper, target_fitness=0):
     """
     Construct a random population of n vectors based on upper and lower limit
     """
@@ -27,7 +28,7 @@ def initialise_random_de(pop_size, solution_size, lower, upper, target_fitness=0
         solutions.append(solution)
         solution.generation = 0
     dePayload.population = solutions
-    dePayload.trials = solutions[:]
+    dePayload.trials = list(solutions)
     dePayload.solution_size = solution_size
     dePayload.population_size = pop_size
     dePayload.start_time = time.time()
@@ -46,7 +47,8 @@ class DeInitialiser(pypline.Task):
         raise NotImplementedError("Base DeInitialiser should not be called!")
 
     def getDescription(self):
-        return {"population": self.pop_size, "solution_size": self.solution_size}
+        return {"population": self.pop_size,
+                "solution_size": self.solution_size}
 
 
 class DeJongOneInitialiser(DeInitialiser):
@@ -54,7 +56,8 @@ class DeJongOneInitialiser(DeInitialiser):
         super(DeJongOneInitialiser, self).__init__(pop_size, solution_size)
 
     def process(self, message, pipeline):
-        de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
+        de = initialise_random_de(
+            self.pop_size, self.solution_size, -5.12, 5.12)
         de_evaluators.DeJongOneEvaluator().process(de, None)
         return de
 
@@ -64,7 +67,8 @@ class DeJongTwoInitialiser(DeInitialiser):
         super(DeJongTwoInitialiser, self).__init__(pop_size, solution_size)
 
     def process(self, message, pipeline):
-        de = initialise_random_de(self.pop_size, self.solution_size, -2.048, 2.048)
+        de = initialise_random_de(
+            self.pop_size, self.solution_size, -2.048, 2.048)
         de_evaluators.DeJongTwoEvaluator().process(de, None)
         return de
 
@@ -74,7 +78,8 @@ class DeJongThreeInitialiser(DeInitialiser):
         super(DeJongThreeInitialiser, self).__init__(pop_size, solution_size)
 
     def process(self, message, pipeline):
-        de = initialise_random_de(self.pop_size, self.solution_size, -5.12, 5.12)
+        de = initialise_random_de(
+            self.pop_size, self.solution_size, -5.12, 5.12)
         de_evaluators.DeJongThreeEvaluator().process(de, None)
         return de
 
@@ -84,7 +89,8 @@ class DeJongFourInitialiser(DeInitialiser):
         super(DeJongFourInitialiser, self).__init__(pop_size, solution_size)
 
     def process(self, message, pipeline):
-        de = initialise_random_de(self.pop_size, self.solution_size,
+        de = initialise_random_de(
+            self.pop_size, self.solution_size,
             -1.28, 1.28, self.solution_size * 0.5)
         de_evaluators.DeJongFourEvaluator().process(de, None)
         return de

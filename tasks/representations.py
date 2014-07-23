@@ -8,8 +8,9 @@ class Solution(object):
         self.parents = []
 
     def __str__(self):
-        return "[%s]" % ", ".join(
-            [("%.2f" % x) for x in self.genes])
+        return "DE({})[{}]".format(
+            self.generation, ", ".join(
+                [("%.2f" % x) for x in self.genes]))
 
     def __repr__(self):
         return str(self)

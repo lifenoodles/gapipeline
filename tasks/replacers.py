@@ -17,6 +17,5 @@ class AllReplacer(pypline.Task):
     def process(self, message, pipeline):
         assert(len(message.population) == len(message.trials),
                "Population length and candidate length are not equal!")
-        for i in xrange(len(message.population)):
-            message.population[i] = message.trials[i]
+        message.population = list(message.trials)
         return message
