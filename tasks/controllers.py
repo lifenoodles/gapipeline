@@ -7,7 +7,7 @@ class GenerationController(pypline.Task):
     Generational controller, signals the end of the algorithm if it falls to
     0 generations or reaches target fitness
     """
-    epsilon = 10e-7
+    epsilon = 10e-10
 
     def __init__(self, generations):
         self.generations = generations
@@ -15,11 +15,11 @@ class GenerationController(pypline.Task):
 
     def process(self, message, pipeline):
         assert message.generation <= self.generations, \
-            "%d is greater than cutoff of %d." % \
-            (message.generation, self.generations)
-        if message.best is not None \
-            and (abs(message.best.fitness - message.target_fitness) \
-                < GenerationController.epsilon or \
+            "{} is greater than cutoff of {}.".format(
+                message.generation, self.generations)
+        if message.best is not None and  \
+            (abs(message.best.fitness - message.target_fitness)
+                < GenerationController.epsilon or
                 message.best.fitness < message.target_fitness):
             return True
         message.generation += 1
