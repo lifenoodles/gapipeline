@@ -11,3 +11,6 @@ class BoundsConstrainer(pypline.Task):
                 elif gene > message.upper:
                     trial.genes[i] = message.upper
         return message
+
+    def getDescription(self):
+        return {"constrainer": "Bounds"}
